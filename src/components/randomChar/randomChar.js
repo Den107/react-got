@@ -78,6 +78,7 @@ const View = ({ char }) => {
                     <span>{culture}</span>
                 </li>
             </ul>
+
         </>
     )
 }
