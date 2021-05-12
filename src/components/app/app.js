@@ -2,17 +2,24 @@ import React, { Component } from 'react';
 import { Col, Row, Container, Button } from 'reactstrap';
 import Header from '../header/header';
 import RandomChar from '../randomChar/randomChar';
-import ItemList from '../itemList/itemList';
-import CharDetails from '../charDetails/charDetails';
 import ErrorMsg from '../errorMsg/errorMsg';
+import CharacterPage from '../characterPage/characterPage';
 import './app.css';
 
 
 export default class App extends Component {
     state = {
         showRandomChar: true,
-        error: false
+        error: false,
     }
+
+    componentDidCatch() {
+        this.setState({
+            error: true
+        })
+    }
+
+
 
     toggleRandomChar = () => {
         this.setState((state) => {
@@ -39,14 +46,7 @@ export default class App extends Component {
                             <Button className="toggle-btn" onClick={this.toggleRandomChar}>Toggle visible random character</Button>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
-                        </Col>
-                    </Row>
+                    <CharacterPage />
                 </Container>
             </>
         );
