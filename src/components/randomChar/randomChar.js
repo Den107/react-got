@@ -6,24 +6,27 @@ import ErrorMsg from '../errorMsg/errorMsg';
 
 export default class RandomChar extends Component {
 
-
-
     gotService = new gotService();
     state = {
         char: {},
         loading: true,
         error: false
     }
+
     componentDidMount() {
         this.updateChar();
-        this.timerId = setInterval(this.updateChar, 3000);
+        this.timerId = setInterval(this.updateChar, 15000);
     }
+
     componentWillUnmount() {
         clearInterval(this.timerId);
     }
 
     onCharLoaded = (char) => {
-        this.setState({ char, loading: false })
+        this.setState({
+            char,
+            loading: false
+        })
     }
 
     onError = (err) => {
@@ -34,32 +37,29 @@ export default class RandomChar extends Component {
     }
 
     updateChar = () => {
-        const id = Math.floor(Math.random() * 140 + 25);
+        const id = Math.floor(Math.random() * 140 + 25); //25-140
         this.gotService.getCharacter(id)
             .then(this.onCharLoaded)
-            .catch(this.onError)
+            .catch(this.onError);
     }
 
     render() {
         const { char, loading, error } = this.state;
 
-        const errorMsg = error ? <ErrorMsg /> : null;
+        const errorMessage = error ? <ErrorMsg /> : null;
         const spinner = loading ? <Spinner /> : null;
         const content = !(loading || error) ? <View char={char} /> : null;
 
-
         return (
             <div className="random-block rounded">
-                {errorMsg}
+                {errorMessage}
                 {spinner}
                 {content}
             </div>
         );
     }
 }
-
 const View = ({ char }) => {
-
     const { name, gender, born, died, culture } = char;
     return (
         <>
@@ -82,7 +82,6 @@ const View = ({ char }) => {
                     <span>{culture}</span>
                 </li>
             </ul>
-
         </>
     )
 }
